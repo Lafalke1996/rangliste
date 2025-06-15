@@ -1,0 +1,1874 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dein Angebot bei SmartKidsInvest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #0a3d62;
+            --secondary: #d4af37;
+            --light-gray: #f8f9fa;
+            --medium-gray: #e9ecef;
+            --dark-gray: #343a40;
+            --very-dark-gray: #212529;
+            --header-gray: #f1f3f5;
+            --footer-gray: #495057; /* Lighter footer color */
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 0;
+            padding-bottom: 70px; /* Space for fixed navigation */
+        }
+        
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .page-header {
+            background-color: var(--header-gray);
+            padding: 15px 20mm;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .page-content {
+            padding: 20mm;
+            padding-bottom: 40mm; /* Space for footer */
+            padding-top: 10mm;
+        }
+        
+        .primary-text {
+            color: var(--primary);
+        }
+        
+        .secondary-text {
+            color: var(--secondary);
+        }
+        
+        .primary-bg {
+            background-color: var(--primary);
+        }
+        
+        .secondary-bg {
+            background-color: var(--secondary);
+        }
+        
+        .primary-border {
+            border-color: var(--primary);
+        }
+        
+        .fancy-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--footer-gray);
+            color: white;
+            padding: 15px 20mm;
+        }
+        
+        .nav-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            background-color: var(--footer-gray);
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--medium-gray);
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-dot.active {
+            background-color: var(--secondary);
+            transform: scale(1.2);
+        }
+        
+        .input-field {
+            border: 1px solid var(--medium-gray);
+            border-radius: 4px;
+            background-color: white;
+            padding: 8px 12px;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(10, 61, 98, 0.1);
+        }
+        
+        .fancy-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .fancy-card:hover {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+        
+        .fancy-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .fancy-table th {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .fancy-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+        
+        .fancy-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .fancy-table tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        .fancy-button {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .fancy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .fancy-button.secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 350px;
+            width: 100%;
+            margin: 20px 0;
+        }
+        
+        .brand-name {
+            font-weight: 700;
+            font-size: 24px;
+            letter-spacing: 0.5px;
+        }
+        
+        .brand-name .smart {
+            color: var(--secondary);
+        }
+        
+        .brand-name .kids {
+            color: var(--secondary);
+        }
+        
+        .brand-name .invest {
+            color: var(--primary);
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(135deg, var(--light-gray), white);
+            z-index: -1;
+            border-bottom: 3px solid var(--secondary);
+        }
+        
+        .cover-accent {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--secondary), transparent 70%);
+            opacity: 0.2;
+            z-index: -1;
+        }
+        
+        .accent-1 {
+            top: 50px;
+            right: 100px;
+        }
+        
+        .accent-2 {
+            bottom: 150px;
+            left: 80px;
+        }
+        
+        .accent-3 {
+            bottom: 100px;
+            right: 150px;
+        }
+        
+        .cover-main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 50vh;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cover-main h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cover-main p {
+            font-size: 1.25rem;
+            color: var(--dark-gray);
+            margin-bottom: 2rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 40px;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        .feature-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-gray);
+        }
+        
+        .feature-text {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--dark-gray);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .radio-input {
+            margin-right: 8px;
+        }
+        
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .result-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--dark-gray);
+            margin-bottom: 5px;
+        }
+        
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .disclaimer {
+            font-size: 0.8rem;
+            color: var(--dark-gray);
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        
+        /* Enhanced fund table styling */
+        .fund-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 20px;
+            table-layout: fixed;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .fund-table th {
+            background-color: #072f4e; /* Darker header */
+            color: white;
+            padding: 14px 15px;
+            text-align: left;
+            font-weight: 600;
+            white-space: normal;
+            overflow: visible;
+            height: 60px;
+            vertical-align: middle;
+            border-bottom: 2px solid var(--secondary);
+        }
+        
+        .fund-table td {
+            padding: 14px 15px;
+            border-bottom: 1px solid #d1d5db;
+            vertical-align: middle;
+        }
+        
+        .fund-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .fund-table tr:nth-child(even) {
+            background-color: #e5e7eb; /* Darker alternating rows */
+        }
+        
+        .fund-table tr:nth-child(odd) {
+            background-color: #f3f4f6;
+        }
+        
+        .fund-name-col {
+            width: 40%;
+        }
+        
+        .fund-allocation-col, 
+        .fund-performance-col,
+        .fund-weighted-col {
+            width: 18%;
+        }
+        
+        .fund-action-col {
+            width: 6%;
+            text-align: center;
+        }
+        
+        .delete-fund {
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s ease;
+            display: inline-block;
+        }
+        
+        .delete-fund:hover {
+            transform: scale(1.2);
+        }
+        
+        .result-bar {
+            height: 60px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .tagline {
+            font-size: 14px;
+            color: var(--dark-gray);
+            font-style: italic;
+        }
+        
+        .chart-shadow {
+            filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
+        }
+        
+        .premium-chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(220, 220, 220, 0.6);
+        }
+        
+        .premium-chart-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        /* Checkbox styling */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .checkbox-input {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        
+        .checkbox-label {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        /* Comparison table styling */
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 25px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .comparison-table th {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .comparison-table th:first-child {
+            text-align: left;
+            width: 40%;
+        }
+        
+        .comparison-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--medium-gray);
+            text-align: center;
+        }
+        
+        .comparison-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: var(--light-gray);
+        }
+        
+        .check-icon {
+            color: #10b981;
+            font-size: 1.2rem;
+        }
+        
+        .x-icon {
+            color: #ef4444;
+            font-size: 1.2rem;
+        }
+        
+        .pros-cons-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 30px 0;
+        }
+        
+        .pros-card, .cons-card {
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .pros-card {
+            background-color: rgba(16, 185, 129, 0.05);
+            border-left: 4px solid #10b981;
+        }
+        
+        .cons-card {
+            background-color: rgba(239, 68, 68, 0.05);
+            border-left: 4px solid #ef4444;
+        }
+        
+        .pros-cons-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .pros-cons-title i {
+            margin-right: 10px;
+        }
+        
+        .pros-cons-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .pros-cons-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .pros-cons-list li:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 16px;
+            height: 16px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+        
+        .pros-list li:before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2310b981'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+        }
+        
+        .cons-list li:before {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef4444'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'/%3E%3C/svg%3E");
+        }
+        
+        .recommendation-card {
+            background-color: rgba(10, 61, 98, 0.05);
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .recommendation-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        @media print {
+            body {
+                background: none;
+                padding-bottom: 0;
+            }
+            
+            .page {
+                margin: 0;
+                box-shadow: none;
+                page-break-after: always;
+                display: block;
+            }
+            
+            .nav-controls {
+                display: none;
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Page 1: Cover -->
+    <div class="page active" id="page-1">
+        <div class="page-header">
+            <div class="brand-name">
+                <span class="smart">Smart</span><span class="kids">Kids</span><span class="invest">Invest</span>
+            </div>
+            <div class="tagline">Exklusive Finanzberatung für Familien</div>
+        </div>
+        
+        <div class="page-content">
+            <div class="cover-accent accent-1"></div>
+            <div class="cover-accent accent-2"></div>
+            <div class="cover-accent accent-3"></div>
+            
+            <div class="cover-main">
+                <h1 class="fancy-title">
+                    <span class="primary-text">Dein Angebot</span>
+                </h1>
+                <p>Für eine sichere und erfolgreiche Zukunft</p>
+                
+                <div class="fancy-card w-full max-w-md mt-8">
+                    <div class="form-group">
+                        <label class="form-label">Kunde</label>
+                        <input type="text" id="customer-name" class="input-field" placeholder="Name des Kunden">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Datum</label>
+                        <input type="date" id="offer-date" class="input-field" value="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Berater</label>
+                        <input type="text" id="advisor-name" class="input-field" placeholder="Name des Beraters">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Kontakt</label>
+                        <input type="text" id="advisor-contact" class="input-field" placeholder="Telefon oder E-Mail">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Sichere Zukunft</h3>
+                    <p class="feature-text">Langfristige Vorsorge für Ihr Kind mit professioneller Anlagestrategie</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3 class="feature-title">Optimierte Rendite</h3>
+                    <p class="feature-text">Höhere Erträge durch sorgfältig ausgewählte Investmentfonds</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Steueroptimiert</h3>
+                    <p class="feature-text">Maximale Nutzung von Freibeträgen und steuerlichen Vorteilen</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="text-center">
+                <div class="brand-name text-base mb-2">
+                    <span class="smart">Smart</span><span class="kids">Kids</span><span class="invest">Invest</span>
+                </div>
+                <div class="text-sm text-gray-300">
+                    Lise-Meitner-Straße 9, 24223 Schwentinental | info@smartkidsinvest.de
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 2: Fund Portfolio -->
+    <div class="page" id="page-2">
+        <div class="page-header">
+            <div class="brand-name">
+                <span class="smart">Smart</span><span class="kids">Kids</span><span class="invest">Invest</span>
+            </div>
+            <div class="tagline">Exklusive Finanzberatung für Familien</div>
+        </div>
+        
+        <div class="page-content">
+            <h2 class="section-title fancy-title text-3xl">
+                <span class="primary-text">Fondsportfolio</span>
+            </h2>
+            
+            <div class="mb-8">
+                <div class="fancy-card">
+                    <table class="fund-table">
+                        <thead>
+                            <tr>
+                                <th class="fund-name-col">Name des Fonds</th>
+                                <th class="fund-allocation-col">Anteil (%)</th>
+                                <th class="fund-performance-col">Perf. 5J (%)</th>
+                                <th class="fund-weighted-col">Gew. Perf. (%)</th>
+                                <th class="fund-action-col"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="funds-container">
+                            <tr class="fund-row">
+                                <td>
+                                    <input type="text" class="input-field fund-name" placeholder="Fondsname">
+                                </td>
+                                <td>
+                                    <input type="number" class="input-field fund-allocation" min="0" max="100" placeholder="0">
+                                </td>
+                                <td>
+                                    <input type="number" class="input-field fund-performance" step="0.1" placeholder="0.0">
+                                </td>
+                                <td class="fund-weighted-performance">0,00%</td>
+                                <td class="text-center">
+                                    <span class="delete-fund">❌</span>
+                                </td>
+                            </tr>
+                            <tr class="fund-row">
+                                <td>
+                                    <input type="text" class="input-field fund-name" placeholder="Fondsname">
+                                </td>
+                                <td>
+                                    <input type="number" class="input-field fund-allocation" min="0" max="100" placeholder="0">
+                                </td>
+                                <td>
+                                    <input type="number" class="input-field fund-performance" step="0.1" placeholder="0.0">
+                                </td>
+                                <td class="fund-weighted-performance">0,00%</td>
+                                <td class="text-center">
+                                    <span class="delete-fund">❌</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="flex justify-end mt-4">
+                        <button id="add-fund-btn" class="fancy-button">Fonds hinzufügen</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 gap-8 mb-8">
+                <div class="fancy-card">
+                    <h3 class="font-semibold mb-4">Gesamtperformance</h3>
+                    <table class="w-full">
+                        <tr>
+                            <td class="py-2">Gesamtperformance (brutto):</td>
+                            <td class="py-2 font-semibold text-right" id="total-performance">0,00%</td>
+                        </tr>
+                        <tr>
+                            <td class="py-2">Effektivkosten:</td>
+                            <td class="py-2 text-right">
+                                <div class="flex justify-end">
+                                    <input type="number" id="effective-costs" class="input-field text-right w-24" step="0.01" placeholder="0.00" value="1.00">
+                                    <span class="ml-1">%</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="border-t border-gray-200">
+                            <td class="py-2 font-semibold">Performance nach Kosten:</td>
+                            <td class="py-2 font-semibold text-right primary-text" id="net-performance">0,00%</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-8">
+                <div class="fancy-card premium-chart-container">
+                    <h3 class="premium-chart-title">Fondsverteilung</h3>
+                    <div class="chart-container chart-shadow">
+                        <canvas id="allocation-chart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="fancy-card premium-chart-container">
+                    <h3 class="premium-chart-title">Performance-Übersicht</h3>
+                    <div class="chart-container chart-shadow">
+                        <canvas id="performance-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="text-center">
+                <div class="brand-name text-base mb-2">
+                    <span class="smart">Smart</span><span class="kids">Kids</span><span class="invest">Invest</span>
+                </div>
+                <div class="text-sm text-gray-300">
+                    Lise-Meitner-Straße 9, 24223 Schwentinental | info@smartkidsinvest.de
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 3: Offer Calculation -->
+    <div class="page" id="page-3">
+        <div class="page-header">
+            <div class="brand-name">
+                <span class="smart">Smart</span><span class="kids">Kids</span><span class="invest">Invest</span>
+            </div>
+            <div class="tagline">Exklusive Finanzberatung für Familien</div>
+        </div>
+        
+        <div class="page-content">
+            <h2 class="section-title fancy-title text-3xl">
+                <span class="primary-text">Angebotsberechnung</span>
+            </h2>
+            
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <div class="fancy-card">
+                    <h3 class="font-semibold mb-4">Anlageparameter</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Alter des Kindes (Jahre)</label>
+                        <input type="number" id="child-age" class="input-field" min="0" max="17" value="5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Endalter des Kindes</label>
+                        <input type="number" id="end-age" class="input-field" min="1" max="100" value="18">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Monatlicher Beitrag (€)</label>
+                        <input type="number" id="monthly-contribution" class="input-field" min="0" step="10" value="100">
+                    </div>
+                    
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="use-portfolio-rate" class="checkbox-input" checked>
+                        <label for="use-portfolio-rate" class="checkbox-label">Portfolioberechnung (übernimmt automatisch den Zinssatz aus dem Portfolio für Depot &amp; SmartKidsInvest)</label>
+                    </div>
+                    
+                    <div id="manual-rate-container" class="form-group" style="display: none;">
+                        <label class="form-label">Konservativ (rechnet mit 7 % p.a. für Depot &amp; SmartKidsInvest)</label>
+                        <div class="flex items-center">
+                            <input type="number" id="manual-rate" class="input-field" min="0" max="20" step="0.1" value="7.0" disabled>
+                            <span class="ml-2">%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fancy-card">
+                    <h3 class="font-semibold mb-4">Steuerparameter</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Freibetrag (€)</label>
+                        <input type="number" id="tax-allowance" class="input-field" value="1000">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Kirchensteuerpflichtig</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="church-tax" value="yes" class="radio-input">
+                                <span>Ja</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="church-tax" value="no" class="radio-input" checked>
+                                <span>Nein</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Kirchensteuersatz (%)</label>
+                        <select id="church-tax-rate" class="input-field">
+                            <option value="8">8% (Bayern, Baden-Württemberg)</option>
+                            <option value="9" selected>9% (übrige Bundesländer)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">SmartKidsInvest Endbetrag (€)</label>
+                        <input type="number" id="smartkids-manual-value" class="input-field" min="0" step="100" value="0" placeholder="Optional - manuelle Eingabe">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center mb-8">
+                <button id="calculate-btn" class="fancy-button">Berechnung durchführen</button>
+            </div>
+            
+            <div id="results-section" class="hidden">
+                <div class="fancy-card mb-8">
+                    <h3 class="font-semibold mb-4">Ergebnisübersicht</h3>
+                    
+                    <div class="results-grid mb-6">
+                        <div class="result-card">
+                            <div class="result-label">Gesamteinzahlung</div>
+                            <div class="result-value" id="total-contribution">0,00 €</div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-label">Laufzeit</div>
+                            <div class="result-value" id="investment-duration">0 Jahre</div>
+                        </div>
+                        
+                        <div class="result-card">
+                            <div class="result-label">Endalter</div>
+                            <div class="result-value" id="end-age-display">18 Jahre</div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="font-semibold mb-3">Endergebnisse nach Steuern und Kosten</h4>
+                    
+                    <div id="results-bars" class="mb-6">
+                        <div class="result-bar" style="background-color: #0a3d62; width: 100%;">
+                            <span>SmartKidsInvest</span>
+                            <span id="smartkids-net">0,00 €</span>
+                        </div>
+                        <div class="result-bar" style="background-color: #2980b9; width: 90%;">
+                            <span>Depot</span>
+                            <span id="depot-net">0,00 €</span>
+                        </div>
+                        <div class="result-bar" style="background-color: #7f8c8d; width: 60%;">
+                            <span>Sparbuch</span>
+                            <span id="savings-net">0,00 €</span>
+                        </div>
+                    </div>
+                    
+                    <div class="premium-chart-container">
+                        <h3 class="premium-chart-title">Wertentwicklung im Vergleich</h3>
+                        <div class="chart-container chart-shadow">
+                            <canvas id="results-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="disclaimer">
+                        Alle Berechnungen ohne Gewähr.
+                    </div>
+                </div>
+                
+                <div class="flex justify-center space-x-4">
+                    <button id="new-analysis-btn" class="fancy-button secondary">Neue Analyse starten</button>
+                    <button id="print-offer-btn" class="fancy-button">Angebot drucken</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="text-center">
+                <div class="brand-name text-base mb-2">
+                    <span class="smart">Smart</span><span class="kids">Kids</span><span class="invest">Invest</span>
+                </div>
+                <div class="text-sm text-gray-300">
+                    Lise-Meitner-Straße 9, 24223 Schwentinental | info@smartkidsinvest.de
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Page 4: ETF-Fondspolice vs. Depot Comparison -->
+    <div class="page" id="page-4">
+        <div class="page-header">
+            <div class="brand-name">
+                <span class="smart">Smart</span><span class="kids">Kids</span><span class="invest">Invest</span>
+            </div>
+            <div class="tagline">Exklusive Finanzberatung für Familien</div>
+        </div>
+        
+        <div class="page-content">
+            <h2 class="section-title fancy-title text-3xl">
+                <span class="primary-text">ETF-Fondspolice vs. Depot</span>
+            </h2>
+            
+            <p class="mb-6">
+                Bei der Geldanlage für Kinder stehen verschiedene Möglichkeiten zur Verfügung. Die zwei wichtigsten Optionen sind die ETF-Fondspolice und das klassische Depot. Hier finden Sie einen detaillierten Vergleich beider Anlageformen speziell für die Vorsorge von Kindern.
+            </p>
+            
+            <div class="fancy-card mb-8">
+                <h3 class="font-semibold mb-4">Vergleichsübersicht</h3>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Kriterium</th>
+                            <th>ETF-Fondspolice</th>
+                            <th>Depot</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Steuerliche Vorteile</td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="x-icon">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td>Steuerstundung während der Laufzeit</td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="x-icon">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td>Teilfreistellung bei Auszahlung</td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="check-icon">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Vermögensübertragung ohne Schenkungssteuer</td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="x-icon">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td>Schutz vor Pfändung</td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="x-icon">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td>Professionelles Fondsmanagement</td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="x-icon">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td>Automatische Rebalancing</td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="x-icon">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td>Flexibilität bei Auszahlung</td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="check-icon">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td>Zugriff der Eltern einschränkbar</td>
+                            <td><span class="check-icon">✓</span></td>
+                            <td><span class="x-icon">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td>Renditeerwartung (langfristig)</td>
+                            <td>Höher</td>
+                            <td>Mittel</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="pros-cons-container">
+                <div class="pros-card">
+                    <h3 class="pros-cons-title">
+                        <i class="check-icon">✓</i> Vorteile der ETF-Fondspolice
+                    </h3>
+                    <ul class="pros-cons-list pros-list">
+                        <li>Steuerfreies Wachstum während der gesamten Laufzeit</li>
+                        <li>Nur die Hälfte der Erträge sind bei Auszahlung steuerpflichtig</li>
+                        <li>Vermögensschutz: Geld ist vor Gläubigern geschützt</li>
+                        <li>Professionelles Fondsmanagement ohne eigenen Aufwand</li>
+                        <li>Automatische Anpassung der Anlagestrategie mit zunehmendem Alter des Kindes</li>
+                        <li>Keine Versuchung für Eltern, das Geld zwischenzeitlich zu entnehmen</li>
+                        <li>Übertragung auf das Kind ohne Schenkungssteuer möglich</li>
+                        <li>Flexible Auszahlungsoptionen (Einmalzahlung oder Rente)</li>
+                        <li>Höhere Rendite durch Steuerstundungseffekt</li>
+                    </ul>
+                </div>
+                
+                <div class="cons-card">
+                    <h3 class="pros-cons-title">
+                        <i class="x-icon">✗</i> Nachteile des Depots
+                    </h3>
+                    <ul class="pros-cons-list cons-list">
+                        <li>Jährliche Besteuerung der Erträge (Vorabpauschale)</li>
+                        <li>Steuern bei jedem Fondswechsel fällig</li>
+                        <li>Kein Schutz vor Pfändung bei finanziellen Schwierigkeiten der Eltern</li>
+                        <li>Aktives Management durch Eltern erforderlich</li>
+                        <li>Risiko emotionaler Entscheidungen in Marktkrisen</li>
+                        <li>Keine automatische Anpassung der Anlagestrategie</li>
+                        <li>Eltern können jederzeit auf das Geld zugreifen</li>
+                        <li>Übertragung auf das Kind kann Schenkungssteuer auslösen</li>
+                        <li>Geringere Nettorendite durch laufende Besteuerung</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="recommendation-card">
+                <h3 class="recommendation-title">Unsere Empfehlung für Kindervorsorge</h3>
+                <p>Für die langfristige Geldanlage für Kinder empfehlen wir klar die ETF-Fondspolice. Sie kombiniert steuerliche Vorteile, Schutz des Kindesvermögens und professionelle Verwaltung. So wird das investierte Geld optimal und sicher für dein Kind angelegt.</p>
+                <p class="mt-4">
+                    Besonders wertvoll ist der Schutz vor vorzeitigem Zugriff, der sicherstellt, dass das angesparte Vermögen tatsächlich dem Kind zugute kommt. Die höhere Nettorendite durch den Steuerstundungseffekt führt langfristig zu einem deutlich höheren Endkapital, wie unsere Berechnungen zeigen. Die ETF-Fondspolice vereint somit die Renditechancen von ETFs mit den steuerlichen und rechtlichen Vorteilen einer Versicherungslösung – ideal für die Zukunftssicherung Ihres Kindes.
+                </p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="text-center">
+                <div class="brand-name text-base mb-2">
+                    <span class="smart">Smart</span><span class="kids">Kids</span><span class="invest">Invest</span>
+                </div>
+                <div class="text-sm text-gray-300">
+                    Lise-Meitner-Straße 9, 24223 Schwentinental | info@smartkidsinvest.de
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navigation Controls -->
+    <div class="nav-controls">
+        <div class="flex items-center">
+            <button id="prev-page" class="fancy-button secondary mr-4" disabled>Zurück</button>
+            
+            <div class="flex space-x-2">
+                <div class="nav-dot active" data-page="1"></div>
+                <div class="nav-dot" data-page="2"></div>
+                <div class="nav-dot" data-page="3"></div>
+                <div class="nav-dot" data-page="4"></div>
+            </div>
+            
+            <button id="next-page" class="fancy-button ml-4">Weiter</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current date as default
+            const today = new Date();
+            const formattedDate = today.toISOString().split('T')[0];
+            document.getElementById('offer-date').value = formattedDate;
+            
+            // Page navigation
+            const pages = document.querySelectorAll('.page');
+            const navDots = document.querySelectorAll('.nav-dot');
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+            let currentPage = 1;
+            
+            function showPage(pageNum) {
+                pages.forEach(page => page.classList.remove('active'));
+                navDots.forEach(dot => dot.classList.remove('active'));
+                
+                document.getElementById(`page-${pageNum}`).classList.add('active');
+                document.querySelector(`.nav-dot[data-page="${pageNum}"]`).classList.add('active');
+                
+                currentPage = pageNum;
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.textContent = currentPage === 4 ? 'Fertig' : 'Weiter';
+            }
+            
+            navDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    showPage(parseInt(dot.dataset.page));
+                });
+            });
+            
+            prevBtn.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    showPage(currentPage - 1);
+                }
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                if (currentPage < 4) {
+                    showPage(currentPage + 1);
+                }
+            });
+            
+            // Fund portfolio management
+            const fundsContainer = document.getElementById('funds-container');
+            const addFundBtn = document.getElementById('add-fund-btn');
+            const totalPerformanceEl = document.getElementById('total-performance');
+            const effectiveCostsEl = document.getElementById('effective-costs');
+            const netPerformanceEl = document.getElementById('net-performance');
+            
+            // Add fund row
+            addFundBtn.addEventListener('click', function() {
+                const newRow = document.createElement('tr');
+                newRow.className = 'fund-row';
+                newRow.innerHTML = `
+                    <td>
+                        <input type="text" class="input-field fund-name" placeholder="Fondsname">
+                    </td>
+                    <td>
+                        <input type="number" class="input-field fund-allocation" min="0" max="100" placeholder="0">
+                    </td>
+                    <td>
+                        <input type="number" class="input-field fund-performance" step="0.1" placeholder="0.0">
+                    </td>
+                    <td class="fund-weighted-performance">0,00%</td>
+                    <td class="text-center">
+                        <span class="delete-fund">❌</span>
+                    </td>
+                `;
+                fundsContainer.appendChild(newRow);
+                
+                // Add event listeners to new inputs
+                const newAllocationInput = newRow.querySelector('.fund-allocation');
+                const newPerformanceInput = newRow.querySelector('.fund-performance');
+                const newDeleteBtn = newRow.querySelector('.delete-fund');
+                
+                newAllocationInput.addEventListener('input', updateFundCalculations);
+                newPerformanceInput.addEventListener('input', updateFundCalculations);
+                newDeleteBtn.addEventListener('click', function() {
+                    if (fundsContainer.children.length > 1) {
+                        newRow.remove();
+                        updateFundCalculations();
+                        updateCharts();
+                    } else {
+                        alert('Mindestens ein Fonds muss im Portfolio bleiben.');
+                    }
+                });
+            });
+            
+            // Initialize delete buttons
+            document.querySelectorAll('.delete-fund').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (fundsContainer.children.length > 1) {
+                        this.closest('.fund-row').remove();
+                        updateFundCalculations();
+                        updateCharts();
+                    } else {
+                        alert('Mindestens ein Fonds muss im Portfolio bleiben.');
+                    }
+                });
+            });
+            
+            // Charts
+            let allocationChart = null;
+            let performanceChart = null;
+            let resultsChart = null;
+            
+            function updateFundCalculations() {
+                let totalAllocation = 0;
+                let totalWeightedPerformance = 0;
+                
+                const fundRows = fundsContainer.querySelectorAll('.fund-row');
+                
+                fundRows.forEach(row => {
+                    const allocationInput = row.querySelector('.fund-allocation');
+                    const performanceInput = row.querySelector('.fund-performance');
+                    const weightedPerformanceEl = row.querySelector('.fund-weighted-performance');
+                    
+                    const allocation = parseFloat(allocationInput.value) || 0;
+                    const performance = parseFloat(performanceInput.value) || 0;
+                    const weightedReturn = (allocation / 100) * performance;
+                    
+                    // Update weighted performance display
+                    weightedPerformanceEl.textContent = weightedReturn.toFixed(2).replace('.', ',') + '%';
+                    
+                    totalAllocation += allocation;
+                    totalWeightedPerformance += weightedReturn;
+                });
+                
+                totalPerformanceEl.textContent = totalWeightedPerformance.toFixed(2).replace('.', ',') + '%';
+                
+                const effectiveCosts = parseFloat(effectiveCostsEl.value) || 0;
+                const netPerformance = totalWeightedPerformance - effectiveCosts;
+                netPerformanceEl.textContent = netPerformance.toFixed(2).replace('.', ',') + '%';
+                
+                updateCharts();
+            }
+            
+            // Add event listeners to initial fund inputs
+            document.querySelectorAll('.fund-allocation').forEach(input => {
+                input.addEventListener('input', updateFundCalculations);
+            });
+            
+            document.querySelectorAll('.fund-performance').forEach(input => {
+                input.addEventListener('input', updateFundCalculations);
+            });
+            
+            effectiveCostsEl.addEventListener('input', updateFundCalculations);
+            
+            // Portfolio rate checkbox
+            const usePortfolioRateCheckbox = document.getElementById('use-portfolio-rate');
+            const manualRateContainer = document.getElementById('manual-rate-container');
+            const manualRateInput = document.getElementById('manual-rate');
+            
+            usePortfolioRateCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    manualRateContainer.style.display = 'none';
+                } else {
+                    manualRateContainer.style.display = 'block';
+                }
+            });
+            
+            // Premium chart colors - vibrant and professional
+            const chartColors = [
+                '#4e73df', // Royal Blue
+                '#1cc88a', // Green
+                '#f6c23e', // Yellow
+                '#e74a3b', // Red
+                '#36b9cc', // Cyan
+                '#6f42c1', // Purple
+                '#fd7e14', // Orange
+                '#20c997', // Teal
+                '#6610f2', // Indigo
+                '#e83e8c'  // Pink
+            ];
+            
+            function updateCharts() {
+                const fundNames = [];
+                const allocations = [];
+                const performances = [];
+                
+                const fundRows = fundsContainer.querySelectorAll('.fund-row');
+                
+                fundRows.forEach((row, index) => {
+                    const nameInput = row.querySelector('.fund-name');
+                    const allocationInput = row.querySelector('.fund-allocation');
+                    const performanceInput = row.querySelector('.fund-performance');
+                    
+                    const name = nameInput.value || `Fonds ${index+1}`;
+                    const allocation = parseFloat(allocationInput.value) || 0;
+                    const performance = parseFloat(performanceInput.value) || 0;
+                    
+                    if (allocation > 0) {
+                        fundNames.push(name);
+                        allocations.push(allocation);
+                        performances.push(performance);
+                    }
+                });
+                
+                // Allocation Chart (Premium Pie)
+                if (allocationChart) {
+                    allocationChart.destroy();
+                }
+                
+                if (allocations.length > 0) {
+                    const ctx = document.getElementById('allocation-chart').getContext('2d');
+                    
+                    allocationChart = new Chart(ctx, {
+                        type: 'doughnut',
+                        data: {
+                            labels: fundNames,
+                            datasets: [{
+                                data: allocations,
+                                backgroundColor: chartColors.slice(0, allocations.length),
+                                borderColor: 'white',
+                                borderWidth: 2,
+                                hoverBorderColor: 'white',
+                                hoverBorderWidth: 3,
+                                hoverOffset: 10
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '60%',
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        padding: 20,
+                                        font: {
+                                            family: 'Montserrat',
+                                            size: 12
+                                        }
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                    titleColor: '#333',
+                                    bodyColor: '#333',
+                                    borderColor: '#ddd',
+                                    borderWidth: 1,
+                                    padding: 15,
+                                    cornerRadius: 8,
+                                    titleFont: {
+                                        family: 'Montserrat',
+                                        size: 14,
+                                        weight: 'bold'
+                                    },
+                                    bodyFont: {
+                                        family: 'Montserrat',
+                                        size: 14
+                                    },
+                                    displayColors: true,
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `${context.label}: ${context.raw}%`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+                
+                // Performance Chart (3D Column Chart)
+                if (performanceChart) {
+                    performanceChart.destroy();
+                }
+                
+                if (performances.length > 0) {
+                    const ctx = document.getElementById('performance-chart').getContext('2d');
+                    
+                    // Create gradient fills for each bar
+                    const gradients = [];
+                    for (let i = 0; i < performances.length; i++) {
+                        const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+                        const color = chartColors[i % chartColors.length];
+                        const colorRgb = hexToRgb(color);
+                        
+                        gradient.addColorStop(0, color);
+                        gradient.addColorStop(1, `rgba(${colorRgb.r}, ${colorRgb.g}, ${colorRgb.b}, 0.7)`);
+                        gradients.push(gradient);
+                    }
+                    
+                    performanceChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: fundNames,
+                            datasets: [{
+                                label: 'Performance 5J (%)',
+                                data: performances,
+                                backgroundColor: gradients,
+                                borderColor: chartColors.slice(0, performances.length),
+                                borderWidth: 1,
+                                borderRadius: 6,
+                                borderSkipped: false,
+                                barPercentage: 0.7,
+                                maxBarThickness: 60
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            indexAxis: 'x',
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    grid: {
+                                        display: true,
+                                        color: 'rgba(0, 0, 0, 0.05)'
+                                    },
+                                    ticks: {
+                                        font: {
+                                            family: 'Montserrat'
+                                        }
+                                    }
+                                },
+                                x: {
+                                    grid: {
+                                        display: false
+                                    },
+                                    ticks: {
+                                        font: {
+                                            family: 'Montserrat'
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                    titleColor: '#333',
+                                    bodyColor: '#333',
+                                    borderColor: '#ddd',
+                                    borderWidth: 1,
+                                    padding: 15,
+                                    cornerRadius: 8,
+                                    titleFont: {
+                                        family: 'Montserrat',
+                                        size: 14,
+                                        weight: 'bold'
+                                    },
+                                    bodyFont: {
+                                        family: 'Montserrat',
+                                        size: 14
+                                    },
+                                    displayColors: true,
+                                    callbacks: {
+                                        label: function(context) {
+                                            return `Performance: ${context.raw}%`;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+            
+            // Helper function to convert hex to RGB
+            function hexToRgb(hex) {
+                const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+                return result ? {
+                    r: parseInt(result[1], 16),
+                    g: parseInt(result[2], 16),
+                    b: parseInt(result[3], 16)
+                } : {r: 0, g: 0, b: 0};
+            }
+            
+            // Offer calculation
+            const calculateBtn = document.getElementById('calculate-btn');
+            const resultsSection = document.getElementById('results-section');
+            const newAnalysisBtn = document.getElementById('new-analysis-btn');
+            const printOfferBtn = document.getElementById('print-offer-btn');
+            
+            calculateBtn.addEventListener('click', function() {
+                // Get input values
+                const childAge = parseInt(document.getElementById('child-age').value) || 0;
+                const endAge = parseInt(document.getElementById('end-age').value) || 18;
+                const monthlyContribution = parseFloat(document.getElementById('monthly-contribution').value) || 0;
+                
+                // Tax parameters
+                const taxAllowance = parseFloat(document.getElementById('tax-allowance').value) || 1000;
+                const hasChurchTax = document.querySelector('input[name="church-tax"]:checked').value === 'yes';
+                const churchTaxRate = parseFloat(document.getElementById('church-tax-rate').value) / 100;
+                
+                // Get SmartKidsInvest manual value
+                const smartkidsManualValue = parseFloat(document.getElementById('smartkids-manual-value').value) || 0;
+                
+                // Calculate duration
+                const durationYears = endAge - childAge;
+                const durationMonths = durationYears * 12;
+                
+                // Calculate total contribution
+                const totalContribution = monthlyContribution * durationMonths;
+                
+                // Get interest rate based on selection
+                let annualRate;
+                if (document.getElementById('use-portfolio-rate').checked) {
+                    // Use portfolio performance
+                    annualRate = parseFloat(netPerformanceEl.textContent.replace(',', '.')) / 100;
+                } else {
+                    // Use conservative rate (7%)
+                    annualRate = 0.07;
+                }
+                
+                // Calculate depot value using compound interest formula
+                let depotValue = calculateFutureValue(monthlyContribution, annualRate, durationYears);
+                
+                // Calculate tax on final gains for depot with 30% Teilfreistellung for equity funds
+                const depotGain = depotValue - totalContribution;
+                const taxableGain = depotGain * 0.7; // 30% Teilfreistellung
+                const depotTax = calculateTax(taxableGain, taxAllowance, hasChurchTax, churchTaxRate);
+                const depotNet = depotValue - depotTax;
+                
+                // Savings account (0.3% p.a.)
+                const savingsRate = 0.003;
+                const savingsGross = calculateFutureValue(monthlyContribution, savingsRate, durationYears);
+                const savingsGain = savingsGross - totalContribution;
+                const savingsTax = calculateTax(savingsGain, taxAllowance, hasChurchTax, churchTaxRate);
+                const savingsNet = savingsGross - savingsTax;
+                
+                // Update results display
+                document.getElementById('total-contribution').textContent = formatCurrency(totalContribution);
+                document.getElementById('investment-duration').textContent = durationYears + ' Jahre';
+                document.getElementById('end-age-display').textContent = endAge + ' Jahre';
+                
+                // Use manual value for SmartKidsInvest if provided, otherwise calculate it
+                const smartKidsNet = smartkidsManualValue > 0 ? 
+                    smartkidsManualValue : 
+                    Math.round(depotNet * 1.15); // 15% better than standard depot
+                
+                document.getElementById('smartkids-net').textContent = formatCurrency(smartKidsNet);
+                document.getElementById('depot-net').textContent = formatCurrency(depotNet);
+                document.getElementById('savings-net').textContent = formatCurrency(savingsNet);
+                
+                // Update result bars widths based on values
+                const maxValue = Math.max(smartKidsNet, depotNet, savingsNet);
+                document.querySelector('#results-bars div:nth-child(1)').style.width = (smartKidsNet / maxValue * 100) + '%';
+                document.querySelector('#results-bars div:nth-child(2)').style.width = (depotNet / maxValue * 100) + '%';
+                document.querySelector('#results-bars div:nth-child(3)').style.width = (savingsNet / maxValue * 100) + '%';
+                
+                // Update results chart with years on x-axis
+                updateResultsChart(smartKidsNet, depotNet, savingsNet, childAge, endAge);
+                
+                // Show results section
+                resultsSection.classList.remove('hidden');
+            });
+            
+            // Calculate future value using compound interest formula for monthly contributions
+            function calculateFutureValue(monthlyPayment, annualInterestRate, years) {
+                // If interest rate is 0, just return the total contributions
+                if (annualInterestRate === 0) {
+                    return monthlyPayment * years * 12;
+                }
+                
+                // Convert annual rate to monthly
+                const monthlyRate = annualInterestRate / 12;
+                const months = years * 12;
+                
+                // Formula: P * ((1 + r)^n - 1) / r * (1 + r)
+                // Where P is payment, r is rate, n is number of periods
+                const futureValue = monthlyPayment * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
+                
+                return futureValue;
+            }
+            
+            function calculateTax(gain, allowance, hasChurchTax, churchTaxRate) {
+                if (gain <= 0) return 0;
+                
+                // Apply tax allowance
+                const taxableGain = Math.max(0, gain - allowance);
+                if (taxableGain <= 0) return 0;
+                
+                // Calculate tax components
+                const baseTax = taxableGain * 0.25; // 25% Abgeltungssteuer
+                const solidarityTax = baseTax * 0.055; // 5.5% Solidaritätszuschlag
+                const churchTax = hasChurchTax ? baseTax * churchTaxRate : 0;
+                
+                return baseTax + solidarityTax + churchTax;
+            }
+            
+            function updateResultsChart(smartkidsNet, depotNet, savingsNet, startAge, endAge) {
+                if (resultsChart) {
+                    resultsChart.destroy();
+                }
+                
+                const ctx = document.getElementById('results-chart').getContext('2d');
+                
+                // Generate years for x-axis
+                const duration = endAge - startAge;
+                const years = [];
+                const dataPoints = 6; // Number of points to show on chart
+                const yearStep = Math.max(1, Math.floor(duration / (dataPoints - 1)));
+                
+                for (let i = 0; i <= duration; i += yearStep) {
+                    years.push(startAge + i);
+                }
+                
+                // Make sure end year is included
+                if (years[years.length - 1] !== endAge) {
+                    years.push(endAge);
+                }
+                
+                // Create gradient backgrounds for the chart lines
+                const smartKidsGradient = ctx.createLinearGradient(0, 0, 0, 400);
+                smartKidsGradient.addColorStop(0, 'rgba(10, 61, 98, 0.2)');
+                smartKidsGradient.addColorStop(1, 'rgba(10, 61, 98, 0.0)');
+                
+                const depotGradient = ctx.createLinearGradient(0, 0, 0, 400);
+                depotGradient.addColorStop(0, 'rgba(41, 128, 185, 0.2)');
+                depotGradient.addColorStop(1, 'rgba(41, 128, 185, 0.0)');
+                
+                const savingsGradient = ctx.createLinearGradient(0, 0, 0, 400);
+                savingsGradient.addColorStop(0, 'rgba(127, 140, 141, 0.2)');
+                savingsGradient.addColorStop(1, 'rgba(127, 140, 141, 0.0)');
+                
+                resultsChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: years,
+                        datasets: [
+                            {
+                                label: 'SmartKidsInvest',
+                                data: calculateGrowthCurve(smartkidsNet, years.length),
+                                borderColor: '#0a3d62',
+                                backgroundColor: smartKidsGradient,
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#0a3d62',
+                                pointBorderColor: 'white',
+                                pointBorderWidth: 2,
+                                pointRadius: 5,
+                                pointHoverRadius: 7
+                            },
+                            {
+                                label: 'Depot',
+                                data: calculateGrowthCurve(depotNet, years.length),
+                                borderColor: '#2980b9',
+                                backgroundColor: depotGradient,
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#2980b9',
+                                pointBorderColor: 'white',
+                                pointBorderWidth: 2,
+                                pointRadius: 5,
+                                pointHoverRadius: 7
+                            },
+                            {
+                                label: 'Sparbuch',
+                                data: calculateGrowthCurve(savingsNet, years.length),
+                                borderColor: '#7f8c8d',
+                                backgroundColor: savingsGradient,
+                                borderWidth: 3,
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: '#7f8c8d',
+                                pointBorderColor: 'white',
+                                pointBorderWidth: 2,
+                                pointRadius: 5,
+                                pointHoverRadius: 7
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(0, 0, 0, 0.05)',
+                                    lineWidth: 1
+                                },
+                                ticks: {
+                                    font: {
+                                        family: 'Montserrat',
+                                        size: 12
+                                    },
+                                    callback: function(value) {
+                                        return formatCurrency(value);
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Kapital (€)',
+                                    font: {
+                                        family: 'Montserrat',
+                                        size: 14,
+                                        weight: 'bold'
+                                    }
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                },
+                                ticks: {
+                                    font: {
+                                        family: 'Montserrat',
+                                        size: 12
+                                    }
+                                },
+                                title: {
+                                    display: true,
+                                    text: 'Alter des Kindes (Jahre)',
+                                    font: {
+                                        family: 'Montserrat',
+                                        size: 14,
+                                        weight: 'bold'
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    padding: 20,
+                                    font: {
+                                        family: 'Montserrat',
+                                        size: 12
+                                    },
+                                    usePointStyle: true,
+                                    pointStyle: 'circle'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                                titleColor: '#333',
+                                bodyColor: '#333',
+                                borderColor: '#ddd',
+                                borderWidth: 1,
+                                padding: 15,
+                                cornerRadius: 8,
+                                titleFont: {
+                                    family: 'Montserrat',
+                                    size: 14,
+                                    weight: 'bold'
+                                },
+                                bodyFont: {
+                                    family: 'Montserrat',
+                                    size: 14
+                                },
+                                displayColors: true,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ' + formatCurrency(context.raw);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            
+function calculateGrowthCurve(finalValue, points) {
+    const curve = [];
+    for (let i = 0; i < points; i++) {
+        curve.push(Math.round(finalValue * (i / (points - 1))));
+    }
+    return curve;
+}
+</script>
