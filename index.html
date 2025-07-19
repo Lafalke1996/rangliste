@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Berater-Rangliste</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
@@ -18,7 +18,7 @@
                         'accent-light': '#60a5fa',
                     },
                     fontFamily: {
-                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'sans': ['Quicksand', 'system-ui', 'sans-serif'],
                     }
                 }
             }
@@ -26,121 +26,252 @@
     </script>
 </head>
 <body class="bg-gray-50 min-h-screen">
-    <!-- Header -->
-    <header class="bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 text-white shadow-2xl">
-        <div class="max-w-7xl mx-auto px-6 py-12">
-            <div class="text-center">
-                <!-- ===== HIER KÖNNEN SIE IHR LOGO EINFÜGEN ===== -->
-                <!-- Ersetzen Sie "logo.png" mit dem Pfad zu Ihrem Logo -->
-                <img src="logo_transparent.png" alt="SmartKidsInvest Logo" class="h-32 w-auto mx-auto mb-4">
-                
-                <div class="text-accent-light text-lg font-medium mb-2">SmartKidsInvest</div>
-                <h1 class="text-5xl font-bold mb-4 tracking-tight">Berater-Rangliste</h1>
-                <p class="text-xl text-blue-100 font-light mb-6">Monatsumsatz unserer Top-Performer</p>
-                
-                <!-- ===== HIER KÖNNEN SIE MONAT UND JAHR ÄNDERN ===== -->
-                <div class="text-lg text-blue-100 font-medium mb-4">August 2025</div>
-                <div class="w-24 h-1 bg-accent mx-auto rounded-full"></div>
+
+
+    <!-- Page 1: Rangliste -->
+    <div id="page1" class="page-content">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 text-white shadow-2xl">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+                <div class="text-center">
+                    <!-- ===== HIER KÖNNEN SIE IHR LOGO EINFÜGEN ===== -->
+                    <!-- Ersetzen Sie "logo.png" mit dem Pfad zu Ihrem Logo -->
+                    <img src="logo.png" alt="SmartKidsInvest Logo" class="h-12 sm:h-16 w-auto mx-auto mb-4">
+                    
+                    <div class="text-accent-light text-base sm:text-lg font-medium mb-2">SmartKidsInvest</div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">Berater-Rangliste</h1>
+                    <p class="text-lg sm:text-xl text-blue-100 font-light mb-6">Monatsumsatz unserer Top-Performer</p>
+                    
+                    <!-- ===== HIER KÖNNEN SIE MONAT UND JAHR ÄNDERN ===== -->
+                    <div class="text-base sm:text-lg text-blue-100 font-medium mb-4">Dezember 2024</div>
+                    <div class="w-24 h-1 bg-accent mx-auto rounded-full"></div>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <!-- Loading State -->
-        <div id="loading" class="text-center py-12">
-            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-navy"></div>
-            <p class="text-gray-600 mt-4">Lade Rangliste...</p>
-        </div>
-
-        <!-- Error State -->
-        <div id="error" class="hidden bg-red-50 border border-red-200 rounded-lg p-6 text-center">
-            <div class="text-red-600 mb-2">
-                <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
-                </svg>
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+            <!-- Loading State -->
+            <div id="loading" class="text-center py-12">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-navy"></div>
+                <p class="text-gray-600 mt-4">Lade Rangliste...</p>
             </div>
-            <h3 class="text-lg font-semibold text-red-800 mb-2">Daten konnten nicht geladen werden</h3>
-            <p class="text-red-600 mb-4">Die Rangliste-Daten sind momentan nicht verfügbar.</p>
-            <button onclick="loadRankingData()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors">
-                Erneut versuchen
-            </button>
-        </div>
 
-        <!-- Ranking Table -->
-        <div id="ranking-container" class="hidden">
-            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+            <!-- Error State -->
+            <div id="error" class="hidden bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+                <div class="text-red-600 mb-2">
+                    <svg class="w-12 h-12 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-red-800 mb-2">Daten konnten nicht geladen werden</h3>
+                <p class="text-red-600 mb-4">Die Rangliste-Daten sind momentan nicht verfügbar.</p>
+                <button onclick="loadRankingData()" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors">
+                    Erneut versuchen
+                </button>
+            </div>
+
+            <!-- Ranking Table -->
+            <div id="ranking-container" class="hidden">
+                <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
+                    <!-- Table Header -->
+                    <div class="bg-gradient-to-r from-slate-700 to-slate-600 text-white px-4 sm:px-8 py-4 sm:py-6">
+                        <div class="grid grid-cols-12 gap-2 sm:gap-4 font-semibold text-sm sm:text-lg">
+                            <div class="col-span-2 text-center">Rang</div>
+                            <div class="col-span-6 text-center">Berater</div>
+                            <div class="col-span-4 text-right">BWS (€)</div>
+                        </div>
+                    </div>
+
+                    <!-- Table Body -->
+                    <div id="ranking-list" class="divide-y divide-gray-100">
+                        <!-- Dynamic content will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    <div class="bg-white rounded-2xl shadow-xl p-6 lg:p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 bg-navy rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-2xl lg:text-3xl font-bold text-navy mb-2" id="total-advisors">-</div>
+                        <div class="text-gray-600 font-medium text-sm lg:text-base">Berater gesamt</div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl p-6 lg:p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                            </svg>
+                        </div>
+                        <div class="text-2xl lg:text-3xl font-bold text-blue-600 mb-2" id="total-bws">-</div>
+                        <div class="text-gray-600 font-medium text-sm lg:text-base">Gesamtprovision diesen Monat</div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl p-6 lg:p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-2xl lg:text-3xl font-bold text-green-600 mb-2" id="avg-bws">-</div>
+                        <div class="text-gray-600 font-medium text-sm lg:text-base">Durchschnitt BWS</div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl p-6 lg:p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                            </svg>
+                        </div>
+                        <div class="text-2xl lg:text-3xl font-bold text-red-600 mb-2" id="highest-bws-per-customer-month">-</div>
+                        <div class="text-gray-600 font-medium text-sm lg:text-base mb-2">Höchste BWS pro Kunde diesen Monat</div>
+                        <div class="text-lg font-bold text-red-800" id="highest-bws-per-customer-month-name">-</div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl p-6 lg:p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                        <div class="text-2xl lg:text-3xl font-bold text-purple-600 mb-2" id="highest-bws-ever">-</div>
+                        <div class="text-gray-600 font-medium text-sm lg:text-base mb-2">Höchste BWS jemals</div>
+                        <div class="text-lg font-bold text-purple-800" id="highest-bws-ever-name">-</div>
+                    </div>
+                    <div class="bg-white rounded-2xl shadow-xl p-6 lg:p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+                        <div class="w-12 h-12 lg:w-16 lg:h-16 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-6 h-6 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-2xl lg:text-3xl font-bold text-orange-600 mb-2" id="highest-bws-per-customer-ever">-</div>
+                        <div class="text-gray-600 font-medium text-sm lg:text-base mb-2">Höchste BWS pro Kunde jemals</div>
+                        <div class="text-lg font-bold text-orange-800" id="highest-bws-per-customer-ever-name">-</div>
+                    </div>
+                </div>
+
+                <!-- Preise für Top 3 -->
+                <div class="mt-8 sm:mt-12">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-center text-navy mb-6 sm:mb-8">Preise & Belohnungen</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                        <!-- Platz 1 -->
+                        <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl shadow-xl p-6 sm:p-8 text-center border-2 border-yellow-200 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 sm:col-span-2 lg:col-span-1">
+                            <div class="text-5xl sm:text-6xl mb-4">🥇</div>
+                            <h3 class="text-xl sm:text-2xl font-bold text-yellow-700 mb-2">1. Platz</h3>
+                            <div class="text-3xl sm:text-4xl font-bold text-yellow-600 mb-4">5.000 €</div>
+                            <p class="text-yellow-700 font-medium">+ Luxus-Wochenende</p>
+                            <p class="text-yellow-600 text-sm mt-2">Mallorca für 2 Personen</p>
+                        </div>
+                        
+                        <!-- Platz 2 -->
+                        <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl shadow-xl p-6 sm:p-8 text-center border-2 border-gray-300 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                            <div class="text-5xl sm:text-6xl mb-4">🥈</div>
+                            <h3 class="text-xl sm:text-2xl font-bold text-gray-600 mb-2">2. Platz</h3>
+                            <div class="text-3xl sm:text-4xl font-bold text-gray-600 mb-4">3.000 €</div>
+                            <p class="text-gray-600 font-medium">+ Wellness-Wochenende</p>
+                            <p class="text-gray-500 text-sm mt-2">Spa-Hotel für 2 Personen</p>
+                        </div>
+                        
+                        <!-- Platz 3 -->
+                        <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl shadow-xl p-6 sm:p-8 text-center border-2 border-orange-200 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                            <div class="text-5xl sm:text-6xl mb-4">🥉</div>
+                            <h3 class="text-xl sm:text-2xl font-bold text-orange-700 mb-2">3. Platz</h3>
+                            <div class="text-3xl sm:text-4xl font-bold text-orange-600 mb-4">1.500 €</div>
+                            <p class="text-orange-700 font-medium">+ Dinner-Gutschein</p>
+                            <p class="text-orange-600 text-sm mt-2">Sternerestaurant für 2 Personen</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Button -->
+                <div class="mt-8 sm:mt-12 text-center">
+                    <button onclick="showPage(2)" class="bg-accent hover:bg-blue-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                        Weiter zu den Karrierestufen →
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Page 2: Statistiken & Preise -->
+    <div id="page2" class="page-content hidden">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 text-white shadow-2xl">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+                <div class="text-center">
+                    <img src="logo.png" alt="SmartKidsInvest Logo" class="h-12 sm:h-16 w-auto mx-auto mb-4">
+                    <div class="text-accent-light text-base sm:text-lg font-medium mb-2">SmartKidsInvest</div>
+                    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">Karrierestufen & Zielsetzung</h1>
+                    <p class="text-lg sm:text-xl text-blue-100 font-light mb-6">Ihr Weg zum Aufstieg bei SmartKidsInvest</p>
+                    <div class="text-base sm:text-lg text-blue-100 font-medium mb-4">Dezember 2024</div>
+                    <div class="w-24 h-1 bg-accent mx-auto rounded-full"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+            <!-- Career Levels Table -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100 mb-12">
                 <!-- Table Header -->
-                <div class="bg-gradient-to-r from-slate-700 to-slate-600 text-white px-8 py-6">
-                    <div class="grid grid-cols-12 gap-4 font-semibold text-lg">
-                        <div class="col-span-2 text-center">Rang</div>
-                        <div class="col-span-6 text-center">Berater</div>
-                        <div class="col-span-4 text-right">BWS (€)</div>
+                <div class="bg-gradient-to-r from-slate-700 to-slate-600 text-white px-3 sm:px-8 py-4 sm:py-6">
+                    <h2 class="text-lg sm:text-2xl font-bold text-center mb-4">Karrierestufen & BWS-Ziele</h2>
+                    <div class="grid grid-cols-12 gap-1 sm:gap-4 font-semibold text-xs sm:text-lg">
+                        <div class="col-span-2 text-center">Stufe</div>
+                        <div class="col-span-5 text-center">Position</div>
+                        <div class="col-span-5 text-right">BWS-Ziel (€)</div>
                     </div>
                 </div>
 
                 <!-- Table Body -->
-                <div id="ranking-list" class="divide-y divide-gray-100">
+                <div id="career-levels-list" class="divide-y divide-gray-100">
                     <!-- Dynamic content will be inserted here -->
                 </div>
             </div>
 
-            <!-- Statistics -->
-            <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
-                    <div class="w-16 h-16 bg-navy rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            <!-- Career Benefits -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-8 sm:mb-12">
+                <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300 sm:col-span-2 lg:col-span-1">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-navy mb-2" id="total-advisors">-</div>
-                    <div class="text-gray-600 font-medium">Berater gesamt</div>
+                    <h3 class="text-lg sm:text-xl font-bold text-navy mb-2">Schneller Aufstieg</h3>
+                    <p class="text-gray-600 text-sm sm:text-base">Erreichen Sie Ihre Ziele und steigen Sie kontinuierlich auf</p>
                 </div>
-                <div class="bg-white rounded-2xl shadow-xl p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
-                    <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                
+                <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
                         </svg>
                     </div>
-                    <div class="text-3xl font-bold text-green-600 mb-2" id="avg-bws">-</div>
-                    <div class="text-gray-600 font-medium">Durchschnitt BWS</div>
+                    <h3 class="text-lg sm:text-xl font-bold text-navy mb-2">Höhere Provisionen</h3>
+                    <p class="text-gray-600 text-sm sm:text-base">Mit jeder Stufe steigen Ihre Verdienstmöglichkeiten</p>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 text-center border border-gray-100 hover:shadow-2xl transition-all duration-300">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-bold text-navy mb-2">Mehr Verantwortung</h3>
+                    <p class="text-gray-600 text-sm sm:text-base">Übernehmen Sie Führungsrollen und entwickeln Sie Teams</p>
                 </div>
             </div>
 
-            <!-- Preise für Top 3 -->
-            <div class="mt-12">
-                <h2 class="text-3xl font-bold text-center text-navy mb-8">Preise & Belohnungen</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Platz 1 -->
-                    <div class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl shadow-xl p-8 text-center border-2 border-yellow-200 hover:shadow-2xl transition-all duration-300">
-                        <div class="text-6xl mb-4">🥇</div>
-                        <h3 class="text-2xl font-bold text-yellow-700 mb-2">1. Platz</h3>
-                        <div class="text-4xl font-bold text-yellow-600 mb-4">5.000 €</div>
-                        <p class="text-yellow-700 font-medium">+ Luxus-Wochenende</p>
-                        <p class="text-yellow-600 text-sm mt-2">Mallorca für 2 Personen</p>
-                    </div>
-                    
-                    <!-- Platz 2 -->
-                    <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl shadow-xl p-8 text-center border-2 border-gray-300 hover:shadow-2xl transition-all duration-300">
-                        <div class="text-6xl mb-4">🥈</div>
-                        <h3 class="text-2xl font-bold text-gray-600 mb-2">2. Platz</h3>
-                        <div class="text-4xl font-bold text-gray-600 mb-4">3.000 €</div>
-                        <p class="text-gray-600 font-medium">+ Wellness-Wochenende</p>
-                        <p class="text-gray-500 text-sm mt-2">Spa-Hotel für 2 Personen</p>
-                    </div>
-                    
-                    <!-- Platz 3 -->
-                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl shadow-xl p-8 text-center border-2 border-orange-200 hover:shadow-2xl transition-all duration-300">
-                        <div class="text-6xl mb-4">🥉</div>
-                        <h3 class="text-2xl font-bold text-orange-700 mb-2">3. Platz</h3>
-                        <div class="text-4xl font-bold text-orange-600 mb-4">1.500 €</div>
-                        <p class="text-orange-700 font-medium">+ Dinner-Gutschein</p>
-                        <p class="text-orange-600 text-sm mt-2">Sternerestaurant für 2 Personen</p>
-                    </div>
-                </div>
+
+
+            <!-- Navigation Button -->
+            <div class="text-center">
+                <button onclick="showPage(1)" class="bg-gray-600 hover:bg-gray-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    ← Zurück zur Rangliste
+                </button>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script>
         // ===== HIER KÖNNEN SIE IHRE DATEN EINFACH ÄNDERN =====
@@ -159,6 +290,51 @@
             // Weitere Berater hinzufügen? Einfach hier ergänzen:
             // { "platzierung": 11, "name": "Neuer Name", "bws": 650000 }
         ];
+
+        // ===== KARRIERESTUFEN - HIER KÖNNEN SIE DIE ZIELE ANPASSEN =====
+        // BWS-Ziele können einfach geändert werden - Basis ist 1 Million pro Stufe
+        const careerLevels = [
+            { level: 50, position: "Junior Berater", bwsTarget: 1000000 },
+            { level: 55, position: "Berater", bwsTarget: 1500000 },
+            { level: 60, position: "Senior Berater", bwsTarget: 2000000 },
+            { level: 65, position: "Team Leader", bwsTarget: 2500000 },
+            { level: 70, position: "Senior Team Leader", bwsTarget: 3000000 }
+        ];
+
+        // ===== MANUELLE STATISTIKEN - HIER KÖNNEN SIE DIE WERTE ÄNDERN =====
+        // Diese Werte werden NICHT automatisch berechnet - Sie können sie individuell anpassen
+        const manualStatistics = {
+            highestBwsEver: 3200000,                    // Höchste BWS jemals erreicht (in einem Monat)
+            highestBwsEverName: "Thomas Weber",         // Name des Beraters mit höchster BWS jemals
+            highestBwsPerCustomerEver: 85000,           // Höchste BWS pro einzelnem Kunden jemals
+            highestBwsPerCustomerEverName: "Anna Schmidt", // Name des Beraters mit höchster BWS pro Kunde jemals
+            highestBwsPerCustomerMonth: 72000,          // Höchste BWS pro Kunde diesen Monat
+            highestBwsPerCustomerMonthName: "Max Mustermann" // Name des Beraters mit höchster BWS pro Kunde diesen Monat
+        };
+
+        // Page Navigation
+        function showPage(pageNumber) {
+            const page1 = document.getElementById('page1');
+            const page2 = document.getElementById('page2');
+            const btn1 = document.getElementById('page1-btn');
+            const btn2 = document.getElementById('page2-btn');
+
+            if (pageNumber === 1) {
+                page1.classList.remove('hidden');
+                page2.classList.add('hidden');
+                btn1.classList.add('bg-accent', 'text-white');
+                btn1.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                btn2.classList.remove('bg-accent', 'text-white');
+                btn2.classList.add('text-gray-600', 'hover:bg-gray-100');
+            } else {
+                page1.classList.add('hidden');
+                page2.classList.remove('hidden');
+                btn2.classList.add('bg-accent', 'text-white');
+                btn2.classList.remove('text-gray-600', 'hover:bg-gray-100');
+                btn1.classList.remove('bg-accent', 'text-white');
+                btn1.classList.add('text-gray-600', 'hover:bg-gray-100');
+            }
+        }
 
         async function loadRankingData() {
             const loadingEl = document.getElementById('loading');
@@ -193,6 +369,9 @@
                 // Render the ranking table
                 renderRankingTable(data);
                 updateStatistics(data);
+                
+                // Render career levels table
+                renderCareerLevelsTable();
 
             } catch (error) {
                 console.error('Error loading ranking data:', error);
@@ -207,7 +386,7 @@
 
             data.forEach((advisor, index) => {
                 const row = document.createElement('div');
-                row.className = 'px-8 py-6 hover:bg-gray-50 transition-all duration-200 border-l-4 border-transparent hover:border-accent';
+                row.className = 'px-3 sm:px-8 py-3 sm:py-6 hover:bg-gray-50 transition-all duration-200 border-l-4 border-transparent hover:border-accent';
                 
                 // Medal icons for top 3
                 let placeDisplay = advisor.platzierung;
@@ -233,15 +412,15 @@
                 }
 
                 row.innerHTML = `
-                    <div class="grid grid-cols-12 gap-4 items-center">
-                        <div class="col-span-2 text-center ${placeClass} text-lg font-semibold">
+                    <div class="grid grid-cols-12 gap-2 sm:gap-4 items-center">
+                        <div class="col-span-2 text-center ${placeClass} text-sm sm:text-lg font-semibold">
                             ${placeDisplay}
                         </div>
                         <div class="col-span-6 text-center">
-                            <div class="font-semibold text-gray-900 text-lg">${advisor.name}</div>
+                            <div class="font-semibold text-gray-900 text-sm sm:text-lg">${advisor.name}</div>
                         </div>
                         <div class="col-span-4 text-right">
-                            <div class="font-bold text-xl ${getBWSTextClass(advisor.bws)}">
+                            <div class="font-bold text-lg sm:text-xl ${getBWSTextClass(advisor.bws)}">
                                 ${formatCurrency(advisor.bws)}
                             </div>
                         </div>
@@ -269,24 +448,88 @@
             return 'text-gray-700';
         }
 
-        function getBWSClass(bws) {
-            if (bws >= 2000000) return 'bg-green-100 text-green-800';
-            if (bws >= 1500000) return 'bg-blue-100 text-blue-800';
-            if (bws >= 1000000) return 'bg-purple-100 text-purple-800';
-            if (bws >= 500000) return 'bg-orange-100 text-orange-800';
-            return 'bg-gray-100 text-gray-800';
+        function renderCareerLevelsTable() {
+            const listEl = document.getElementById('career-levels-list');
+            listEl.innerHTML = '';
+
+            careerLevels.forEach((level, index) => {
+                const row = document.createElement('div');
+                row.className = 'px-3 sm:px-8 py-3 sm:py-6 hover:bg-gray-50 transition-all duration-200 border-l-4 border-transparent hover:border-accent';
+                
+                // Different styling for different levels
+                let levelClass = 'text-gray-700';
+                let rowBg = '';
+                let levelIcon = '📊';
+                
+                if (level.level >= 70) {
+                    levelClass = 'text-purple-600 font-bold';
+                    rowBg = 'bg-gradient-to-r from-purple-50 to-transparent';
+                    levelIcon = '👑';
+                } else if (level.level >= 65) {
+                    levelClass = 'text-blue-600 font-bold';
+                    rowBg = 'bg-gradient-to-r from-blue-50 to-transparent';
+                    levelIcon = '🎯';
+                } else if (level.level >= 60) {
+                    levelClass = 'text-green-600 font-bold';
+                    rowBg = 'bg-gradient-to-r from-green-50 to-transparent';
+                    levelIcon = '⭐';
+                } else if (level.level >= 55) {
+                    levelClass = 'text-orange-600 font-bold';
+                    rowBg = 'bg-gradient-to-r from-orange-50 to-transparent';
+                    levelIcon = '🚀';
+                } else {
+                    levelClass = 'text-gray-600 font-bold';
+                    rowBg = 'bg-gradient-to-r from-gray-50 to-transparent';
+                    levelIcon = '📈';
+                }
+
+                if (rowBg) {
+                    row.className += ` ${rowBg}`;
+                }
+
+                row.innerHTML = `
+                    <div class="grid grid-cols-12 gap-1 sm:gap-4 items-center">
+                        <div class="col-span-2 text-center ${levelClass} text-xs sm:text-lg font-semibold">
+                            ${levelIcon} ${level.level}
+                        </div>
+                        <div class="col-span-5 text-center">
+                            <div class="font-semibold text-gray-900 text-xs sm:text-lg">${level.position}</div>
+                        </div>
+                        <div class="col-span-5 text-right">
+                            <div class="font-bold text-sm sm:text-xl ${getBWSTextClass(level.bwsTarget)}">
+                                ${formatCurrency(level.bwsTarget)}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                listEl.appendChild(row);
+            });
         }
 
         function updateStatistics(data) {
             const totalAdvisors = data.length;
-            const avgBWS = data.reduce((sum, advisor) => sum + advisor.bws, 0) / totalAdvisors;
+            const totalBWS = data.reduce((sum, advisor) => sum + advisor.bws, 0);
+            const avgBWS = totalBWS / totalAdvisors;
 
+            // Update page 1 statistics
             document.getElementById('total-advisors').textContent = totalAdvisors;
+            document.getElementById('total-bws').textContent = formatCurrency(totalBWS);
             document.getElementById('avg-bws').textContent = formatCurrency(avgBWS);
+            
+            // Use manual statistics values (not calculated from current data)
+            document.getElementById('highest-bws-ever').textContent = formatCurrency(manualStatistics.highestBwsEver);
+            document.getElementById('highest-bws-ever-name').textContent = manualStatistics.highestBwsEverName;
+            
+            document.getElementById('highest-bws-per-customer-ever').textContent = formatCurrency(manualStatistics.highestBwsPerCustomerEver);
+            document.getElementById('highest-bws-per-customer-ever-name').textContent = manualStatistics.highestBwsPerCustomerEverName;
+            
+            document.getElementById('highest-bws-per-customer-month').textContent = formatCurrency(manualStatistics.highestBwsPerCustomerMonth);
+            document.getElementById('highest-bws-per-customer-month-name').textContent = manualStatistics.highestBwsPerCustomerMonthName;
         }
 
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', loadRankingData);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9617e04e049c6a78',t:'MTc1MjkwMzU0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'961d25ec812858de',t:'MTc1Mjk1ODgyNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
