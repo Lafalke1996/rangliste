@@ -27,12 +27,12 @@
 </head>
 <body class="bg-gray-50 min-h-screen">
     <!-- Header -->
-    <header class="bg-gradient-to-r from-navy via-navy-light to-navy-lighter text-white shadow-2xl">
+    <header class="bg-gradient-to-r from-slate-700 via-slate-600 to-slate-700 text-white shadow-2xl">
         <div class="max-w-7xl mx-auto px-6 py-12">
             <div class="text-center">
                 <!-- ===== HIER KÖNNEN SIE IHR LOGO EINFÜGEN ===== -->
                 <!-- Ersetzen Sie "logo.png" mit dem Pfad zu Ihrem Logo -->
-                <img src="logo_transparent.png" alt="SmartKidsInvest Logo" class="h-32 w-auto mx-auto mb-4">
+                <img src="logo.png" alt="SmartKidsInvest Logo" class="h-16 w-auto mx-auto mb-4">
                 
                 <div class="text-accent-light text-lg font-medium mb-2">SmartKidsInvest</div>
                 <h1 class="text-5xl font-bold mb-4 tracking-tight">Berater-Rangliste</h1>
@@ -71,11 +71,11 @@
         <div id="ranking-container" class="hidden">
             <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-100">
                 <!-- Table Header -->
-                <div class="bg-gradient-to-r from-navy to-navy-light text-white px-8 py-6">
-                    <div class="grid grid-cols-12 gap-6 font-semibold text-lg">
+                <div class="bg-gradient-to-r from-slate-700 to-slate-600 text-white px-8 py-6">
+                    <div class="grid grid-cols-12 gap-4 font-semibold text-lg">
                         <div class="col-span-2 text-center">Rang</div>
-                        <div class="col-span-5 md:col-span-6">Berater</div>
-                        <div class="col-span-5 md:col-span-4 text-right">BWS (€)</div>
+                        <div class="col-span-6 text-center">Berater</div>
+                        <div class="col-span-4 text-right">BWS (€)</div>
                     </div>
                 </div>
 
@@ -233,14 +233,14 @@
                 }
 
                 row.innerHTML = `
-                    <div class="grid grid-cols-12 gap-6 items-center">
+                    <div class="grid grid-cols-12 gap-4 items-center">
                         <div class="col-span-2 text-center ${placeClass} text-lg font-semibold">
                             ${placeDisplay}
                         </div>
-                        <div class="col-span-5 md:col-span-6">
+                        <div class="col-span-6 text-center">
                             <div class="font-semibold text-gray-900 text-lg">${advisor.name}</div>
                         </div>
-                        <div class="col-span-5 md:col-span-4 text-right">
+                        <div class="col-span-4 text-right">
                             <div class="font-bold text-xl ${getBWSTextClass(advisor.bws)}">
                                 ${formatCurrency(advisor.bws)}
                             </div>
@@ -288,5 +288,5 @@
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', loadRankingData);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96157e5ae23658de',t:'MTc1Mjg3ODU2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9617e04e049c6a78',t:'MTc1MjkwMzU0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
